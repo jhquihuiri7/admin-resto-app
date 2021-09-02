@@ -2,8 +2,11 @@
 import 'dart:typed_data';
 
 import 'package:admin_resto_app/src/backend/request.dart';
+import 'package:admin_resto_app/src/backend/request_upload.dart';
 import 'package:admin_resto_app/src/providers/model_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
+import 'package:admin_resto_app/src/utils/common_funtions.dart';
+import 'package:admin_resto_app/src/utils/select_subsection.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
@@ -14,7 +17,9 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
 
 class LoadLogoWidget extends StatelessWidget {
+  final String logo;
 
+  LoadLogoWidget({required this.logo});
   @override
   Widget build(BuildContext context) {
     final utilsProvider = Provider.of<UtilsProvider>(context);
@@ -40,7 +45,7 @@ class LoadLogoWidget extends StatelessWidget {
                     padding: EdgeInsets.all(0),
                     primary: Theme.of(context).accentColor
                   ),
-                  child: (modelProvider.logoNew == '')
+                  child: (utilsProvider.needLoad)
                       ?Image(
                         height: 175,
                         width: size.width * 0.36 * 0.8,
@@ -50,14 +55,24 @@ class LoadLogoWidget extends StatelessWidget {
                       :Image(
                         height: 175,
                         width: size.width * 0.36 * 0.8,
-                        image:NetworkImage(modelProvider.logoNew),
+                        image:SelectSubsection().logoImage(context),
                         fit: BoxFit.cover,
                       ),
                   onPressed: () async{
-                    MediaInfo mediaInfo = await imagePicker();
+                    MediaInfo mediaInfo = await RequestUpload().imagePicker();
                     utilsProvider.isLoading = true;
-                    modelProvider.logoNew = await uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString(), utilsProvider) as String;
-                    await RequestService().replaceLogo(context, modelProvider.logoNew);
+                    print(logo);
+                    if (this.logo == 'logo') {
+                      await RequestUpload().deleteFile(context,'img', this.logo);
+                      modelProvider.logoNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
+                      await RequestService().replaceLogo(context, modelProvider.logoNew);
+                    }else if (this.logo == 'logoFooter'){
+                      await RequestUpload().deleteFile(context,'img', this.logo);
+                      utilsProvider.logoFooterNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
+                      utilsProvider.footerModel.logoFooter = utilsProvider.logoFooterNew;
+                      await RequestService().replaceFooter(context);
+                    }
+                    utilsProvider.needLoad = false;
                     utilsProvider.isLoading = false;
                   },
                 ),
@@ -70,7 +85,7 @@ class LoadLogoWidget extends StatelessWidget {
                   duration: Duration(milliseconds: 300),
                   child: LoadingIndicator(
                     indicatorType: Indicator.ballPulse, /// Required, The loading type of the widget
-                    colors: const [Color(0xfffe6d6a),Color(0xff102689),Color(0xffffc37a)],
+                    colors: [Theme.of(context).primaryColor,Theme.of(context).primaryColorDark, Theme.of(context).primaryColorLight],
                   ),
                 ),
               )
@@ -82,44 +97,5 @@ class LoadLogoWidget extends StatelessWidget {
     );
   }
 }
-Future<void> listExample() async {
-  firebase_storage.ListResult result =
-  await firebase_storage.FirebaseStorage.instance.ref().listAll();
 
-  result.items.forEach((firebase_storage.Reference ref) {
-    print('Found file: $ref');
-  });
-
-  result.prefixes.forEach((firebase_storage.Reference ref) {
-    print('Found directory: $ref');
-  });
-}
-
-Future<MediaInfo> imagePicker() async {
-  MediaInfo mediaInfo = await ImagePickerWeb.getImageInfo;
-  return mediaInfo;
-}
-
-Future<String?> uploadFile(
-    MediaInfo mediaInfo, String refString, String fileName, UtilsProvider provider) async {
-  try {
-    String? mimeType = mime(path.basename(mediaInfo.fileName.toString()));
-
-    var metadata = firebase_storage.SettableMetadata(
-      contentType: mimeType,
-    );
-    Uint8List info = mediaInfo.data as Uint8List;
-    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-        .ref(refString).child(fileName);
-    firebase_storage.TaskSnapshot uploadTaskSnapshot =
-    await ref.putData(info , metadata);
-
-    String imageUri = await uploadTaskSnapshot.ref.getDownloadURL();
-    print("download url $imageUri");
-    return imageUri;
-  } catch (e) {
-    print("File Upload Error $e");
-    return null;
-  }
-}
 

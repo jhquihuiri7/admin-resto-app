@@ -1,4 +1,5 @@
 import 'package:admin_resto_app/src/pages/main_dash.dart';
+import 'package:admin_resto_app/src/providers/footer_provider.dart';
 import 'package:admin_resto_app/src/providers/model_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => UtilsProvider()),
         ChangeNotifierProvider(create: (_) => ModelProvider()),
+        ChangeNotifierProvider(create: (_) => FooterProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -65,9 +67,11 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primaryColor: Color(0xfffe6d6a),
           accentColor: Color(0xff858ef3),
+          primaryColorDark: Color(0xff102689),
+          primaryColorLight: Color(0xffffc37a),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-                primary: Color(0xff102689)
+                primary: Theme.of(context).primaryColorDark
               ))
 
         ),

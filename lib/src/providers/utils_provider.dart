@@ -24,6 +24,13 @@ class UtilsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _needLoad = true;
+  bool get needLoad => _needLoad;
+  set needLoad (bool value){
+    _needLoad = value;
+    notifyListeners();
+  }
+
   late FooterModel _footerModel;
   FooterModel get footerModel => _footerModel;
   set footerModel (FooterModel value){
@@ -34,5 +41,26 @@ class UtilsProvider extends ChangeNotifier {
   SectionUnoModel get sectionUnoModel => _sectionUnoModel;
   set sectionUnoModel (SectionUnoModel value){
     _sectionUnoModel = value;
+  }
+
+  String _logoFooterNew = '';
+  String get logoFooterNew => _logoFooterNew;
+  set logoFooterNew (String value){
+    _logoFooterNew = value;
+    notifyListeners();
+  }
+
+  Contacto _contacto = Contacto(direccion: '',mail: '',telefono: '');
+  Contacto get contacto => _contacto;
+  set contacto (Contacto value){
+    _contacto = value;
+    notifyListeners();
+  }
+
+  String _prueba = '';
+  String get prueba => _prueba;
+  set prueba (String value){
+    _prueba = value;
+    notifyListeners();
   }
 }
