@@ -1,20 +1,14 @@
-
-import 'dart:typed_data';
-
 import 'package:admin_resto_app/src/backend/request.dart';
 import 'package:admin_resto_app/src/backend/request_upload.dart';
+import 'package:admin_resto_app/src/models/section_uno_model.dart';
 import 'package:admin_resto_app/src/providers/model_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
-import 'package:admin_resto_app/src/utils/common_funtions.dart';
 import 'package:admin_resto_app/src/utils/select_subsection.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:mime_type/mime_type.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:path/path.dart' as path;
 
 class LoadLogoWidget extends StatelessWidget {
   final String logo;
@@ -61,7 +55,6 @@ class LoadLogoWidget extends StatelessWidget {
                   onPressed: () async{
                     MediaInfo mediaInfo = await RequestUpload().imagePicker();
                     utilsProvider.isLoading = true;
-                    print(logo);
                     if (this.logo == 'logo') {
                       await RequestUpload().deleteFile(context,'img', this.logo);
                       modelProvider.logoNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
@@ -71,6 +64,17 @@ class LoadLogoWidget extends StatelessWidget {
                       utilsProvider.logoFooterNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
                       utilsProvider.footerModel.logoFooter = utilsProvider.logoFooterNew;
                       await RequestService().replaceFooter(context);
+                    }else if (this.logo == 'logoMenu'){
+                      await RequestUpload().deleteFile(context,'img', this.logo);
+                      utilsProvider.logoMenuNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
+                      await RequestService().replaceMenuPhoto(context);
+                    }else if (this.logo == 'addSliderHeader'){
+                      modelProvider.slideNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
+                      modelProvider.slideHeaderNew = modelProvider.slideHeader;
+                      modelProvider.slideHeaderNew.add(SlidePromo(img: modelProvider.slideNew));
+                      await RequestService().addSlider(context);
+                    }else{
+                      print('No Hago Nada');
                     }
                     utilsProvider.needLoad = false;
                     utilsProvider.isLoading = false;

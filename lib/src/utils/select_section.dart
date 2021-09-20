@@ -24,8 +24,8 @@ class SelectSection {
 
   launchWhatsApp() async {
     final link = WhatsAppUnilink(
-      phoneNumber: '+593960019220',
-      text: "Hola soy Jhonata jjajaj",
+      phoneNumber: '+593982291894',
+      text: "Estimados Logiciel Applab, los contactamos de parte de la empresa La Sazon debido a que tenemos ciertos inconvenientes con:",
     );
     // Convert the WhatsAppUnilink instance to a string.
     // Use either Dart's string interpolation or the toString() method.

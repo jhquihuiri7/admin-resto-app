@@ -43,6 +43,13 @@ class UtilsProvider extends ChangeNotifier {
     _sectionUnoModel = value;
   }
 
+  String _logoMenuNew = '';
+  String get logoMenuNew => _logoMenuNew;
+  set logoMenuNew(String value){
+    _logoMenuNew = value;
+    notifyListeners();
+  }
+
   String _logoFooterNew = '';
   String get logoFooterNew => _logoFooterNew;
   set logoFooterNew (String value){
@@ -57,10 +64,4 @@ class UtilsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String _prueba = '';
-  String get prueba => _prueba;
-  set prueba (String value){
-    _prueba = value;
-    notifyListeners();
-  }
 }

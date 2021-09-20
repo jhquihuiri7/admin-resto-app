@@ -1,5 +1,5 @@
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
-import 'package:admin_resto_app/src/widgets/first_section/slider_section_uno_widget.dart';
+import 'package:admin_resto_app/src/widgets/first_section/slider_widget.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class SectionUnoPage extends StatelessWidget {
@@ -30,18 +30,18 @@ class SectionUnoPage extends StatelessWidget {
         ],
       );
     }
-    Widget infoSectionUno (){
+    Widget infoSliderHeader (){
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 30,),
-          TitleTheme().titleTheme('Sección Uno',2),
+          TitleTheme().titleTheme('Slider Header',2),
           SizedBox(height: 10,),
           Stack(
             children: [
               CommonWidgets().CardWidgetLabeled(
                   context: context,
-                  widget: SliderSectionUnoWidget(),
+                  widget: SliderWidget(sliderType: 'sliderHeader'),
                   label: TitleTheme().titleTheme('Slides',3),
                   beginSizedBox: false,
                   endSizedBox: false),
@@ -51,7 +51,37 @@ class SectionUnoPage extends StatelessWidget {
                 child: CommonWidgets().ElevatedButtonWidget(
                     context: context,
                     title: 'Editar',
-                    widget: 'slider'),
+                    widget: 'sliderHeader'),
+              )
+            ],
+          ),
+        ],
+      );
+    }
+    Widget infoSectionUno (){
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(height: 30,),
+          TitleTheme().titleTheme('Sección Uno',2),
+          SizedBox(height: 10,),
+          CommonWidgets().logoInfoForCard(context: context, logo: 'logoMenu'),
+          SizedBox(height: 20,),
+          Stack(
+            children: [
+              CommonWidgets().CardWidgetLabeled(
+                  context: context,
+                  widget: SliderWidget(sliderType: 'sliderPromo'),
+                  label: TitleTheme().titleTheme('Slides',3),
+                  beginSizedBox: false,
+                  endSizedBox: false),
+              Positioned(
+                bottom: 20,
+                right: 50,
+                child: CommonWidgets().ElevatedButtonWidget(
+                    context: context,
+                    title: 'Editar',
+                    widget: 'sliderPromo'),
               )
             ],
           ),
@@ -65,6 +95,8 @@ class SectionUnoPage extends StatelessWidget {
         SizedBox(height: 15,),
         CommonWidgets().ContainerWidget(widget: footerInfoSectionUno()),
         SizedBox(height: 15,),
+        CommonWidgets().ContainerWidget(widget: infoSliderHeader()),
+        SizedBox(height: 50,),
         CommonWidgets().ContainerWidget(widget: infoSectionUno()),
         SizedBox(height: 50,),
       ],

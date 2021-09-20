@@ -46,6 +46,12 @@ class RequestUpload {
       child = (utilsProvider.logoFooterNew == '')
           ? CommonFuntions().transformText(utilsProvider.footerModel.logoFooter)
           : CommonFuntions().transformText(utilsProvider.logoFooterNew);
+    }else if (logo == 'logoMenu'){
+      child = (utilsProvider.logoMenuNew == '')
+          ? CommonFuntions().transformText(utilsProvider.sectionUnoModel.menuPhoto)
+          : CommonFuntions().transformText(utilsProvider.logoMenuNew);
+    }else if (logo == 'deleteSliderHeader'){
+      child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
     }
     print(child);
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
@@ -57,6 +63,5 @@ class RequestUpload {
       return e.toString();
     }
   }
-
 
 }

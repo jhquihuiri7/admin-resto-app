@@ -1,6 +1,6 @@
 {
-    "name": "admin_resto_app",
-    "short_name": "admin_resto_app",
+    "name": "Administrador | Restaurantes",
+    "short_name": "Administrador | Restaurantes",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

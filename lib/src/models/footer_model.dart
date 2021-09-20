@@ -13,7 +13,7 @@ class FooterModel {
 
   Contacto contacto;
   String logoFooter;
-  List<Redes> redes;
+  Redes redes;
 
   factory FooterModel.fromJson(String str) => FooterModel.fromMap(json.decode(str));
 
@@ -22,13 +22,13 @@ class FooterModel {
   factory FooterModel.fromMap(Map<String, dynamic> json) => FooterModel(
     contacto: Contacto.fromMap(json["contacto"]),
     logoFooter: json["logo_footer"],
-    redes: List<Redes>.from(json["redes"].map((x) => Redes.fromMap(x))),
+    redes: Redes.fromMap(json["redes"]),
   );
 
   Map<String, dynamic> toMap() => {
     "contacto": contacto.toMap(),
     "logo_footer": logoFooter,
-    "redes": List<dynamic>.from(redes.map((x) => x.toMap())),
+    "redes": redes.toMap(),
   };
 }
 
@@ -59,27 +59,26 @@ class Contacto {
     "telefono": telefono,
   };
 }
-
 class Redes {
   Redes({
-    required this.red,
-    required this.url,
+    required this.facebook,
+    required this.instagram,
   });
 
-  String red;
-  String url;
+  String facebook;
+  String instagram;
 
   factory Redes.fromJson(String str) => Redes.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
   factory Redes.fromMap(Map<String, dynamic> json) => Redes(
-    red: json["red"],
-    url: json["url"],
+    facebook: json["facebook"],
+    instagram: json["instagram"],
   );
 
   Map<String, dynamic> toMap() => {
-    "red": red,
-    "url": url,
+    "facebook": facebook,
+    "instagram": instagram,
   };
 }

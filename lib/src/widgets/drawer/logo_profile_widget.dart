@@ -21,10 +21,10 @@ class LogoProfileWidget extends StatelessWidget {
             final modelProvider = Provider.of<ModelProvider>(context);
             if (snapshot.hasData){
               utilsProvider.footerModel = FooterModel.fromMap(snapshot.data['footer']);
-              utilsProvider.sectionUnoModel = SectionUnoModel.fromJson(snapshot.data['section_1']);
+              utilsProvider.sectionUnoModel = SectionUnoModel.fromMap(snapshot.data['section_1']);
 
               modelProvider.logo = snapshot.data['logo'];
-
+              modelProvider.slideHeader = List<SlidePromo>.from(snapshot.data["slide_header"].map((x) => SlidePromo.fromMap(x)));
               return ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(

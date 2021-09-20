@@ -17,6 +17,21 @@ class _SocialMediaButtonWidgetState extends State<SocialMediaButtonWidget> {
   @override
   Widget build(BuildContext context) {
     final utilsProvider = Provider.of<UtilsProvider>(context);
+    String selectLabel (){
+      if (widget.red == 'Facebook'){
+        return utilsProvider.footerModel.redes.facebook;
+      }else {
+        return utilsProvider.footerModel.redes.instagram;
+      }
+    }
+    replaceRedes (){
+      if (widget.red == 'Facebook'){
+        utilsProvider.footerModel.redes.facebook = _controller.text;
+      }else {
+        utilsProvider.footerModel.redes.instagram = _controller.text;
+      }
+    }
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: CircleBorder(),
@@ -40,7 +55,7 @@ class _SocialMediaButtonWidgetState extends State<SocialMediaButtonWidget> {
                   controller: _controller,
                   decoration: InputDecoration(
                     icon: Icon(Icons.account_circle),
-                    labelText: 'Username',
+                    labelText: selectLabel(),
                   ),
                 ),
               ],
@@ -52,29 +67,7 @@ class _SocialMediaButtonWidgetState extends State<SocialMediaButtonWidget> {
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                   onPressed: () {
-                  bool addNew = false;
-                  bool deleteOld = false;
-                  Redes deteleRed = Redes(red: 'red', url: 'url');
-                  utilsProvider.footerModel.redes.forEach((element) {
-                    if (element.red == widget.red){
-                      if (_controller.text != ''){
-                        element.url = _controller.text;
-                      }else {
-                        deteleRed.red = element.red;
-                        deteleRed.url = element.url;
-                        deleteOld = true;
-                      }
-                    }else {
-                      addNew = true;
-                    }
-                  });
-                  if (addNew){
-                    final red = Redes(red: widget.red, url: _controller.text);
-                    utilsProvider.footerModel.redes.add(red);
-                  }
-                  if (deleteOld){
-                    utilsProvider.footerModel.redes.remove(deteleRed);
-                  }
+                    replaceRedes();
                     Navigator.pop(context);
                     RequestService().replaceFooter(context);
                   }

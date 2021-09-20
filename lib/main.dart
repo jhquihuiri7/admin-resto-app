@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Administrador | Restaurantes',
         home: MainDash(),
         theme: ThemeData(
           primaryColor: Color(0xfffe6d6a),

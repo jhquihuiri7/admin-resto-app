@@ -97,7 +97,11 @@ class CommonWidgets {
       }else if (logo == 'logoFooter'){
         return (utilsProvider.logoFooterNew == '')
             ?NetworkImage(utilsProvider.footerModel.logoFooter)
-            :NetworkImage(utilsProvider.logoFooterNew);;
+            :NetworkImage(utilsProvider.logoFooterNew);
+      } else if(logo == 'logoMenu'){
+        return (utilsProvider.logoMenuNew == '')
+            ?NetworkImage(utilsProvider.sectionUnoModel.menuPhoto)
+            :NetworkImage(utilsProvider.logoMenuNew);
       } else {
         return NetworkImage(modelProvider.logoNew);
       }
@@ -113,6 +117,10 @@ class CommonWidgets {
         return (utilsProvider.logoFooterNew == '')
             ? Text(CommonFuntions().transformText(utilsProvider.footerModel.logoFooter))
             : Text(CommonFuntions().transformText(utilsProvider.logoFooterNew));
+      } else if(logo == 'logoMenu'){
+        return (utilsProvider.logoMenuNew == '')
+            ? Text(CommonFuntions().transformText(utilsProvider.sectionUnoModel.menuPhoto))
+            : Text(CommonFuntions().transformText(utilsProvider.logoMenuNew));
       } else {
         return Text('');
       }
