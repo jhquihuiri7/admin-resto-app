@@ -1,5 +1,6 @@
 import 'package:admin_resto_app/src/models/footer_model.dart';
 import 'package:admin_resto_app/src/models/section_uno_model.dart';
+import 'package:admin_resto_app/src/providers/section_tres_provider.dart';
 import 'package:admin_resto_app/src/utils/themes.dart';
 import 'package:admin_resto_app/src/backend/request.dart';
 import 'package:admin_resto_app/src/providers/model_provider.dart';
@@ -12,19 +13,24 @@ class LogoProfileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final utilsProvider = Provider.of<UtilsProvider>(context);
+    final modelProvider = Provider.of<ModelProvider>(context);
+    final sectionTresProvider = Provider.of<SectionTresProvider>(context);
     return Column(
       children: [
         SizedBox(height: size.height * 0.05,),
         FutureBuilder(
           future: RequestService().loadData(context),
           builder: (BuildContext context, AsyncSnapshot snapshot){
-            final modelProvider = Provider.of<ModelProvider>(context);
+
             if (snapshot.hasData){
               utilsProvider.footerModel = FooterModel.fromMap(snapshot.data['footer']);
               utilsProvider.sectionUnoModel = SectionUnoModel.fromMap(snapshot.data['section_1']);
 
               modelProvider.logo = snapshot.data['logo'];
               modelProvider.slideHeader = List<SlidePromo>.from(snapshot.data["slide_header"].map((x) => SlidePromo.fromMap(x)));
+
+              sectionTresProvider.slideRestaurant = List<SlidePromo>.from(snapshot.data["section_3"]["restaurant"].map((x) => SlidePromo.fromMap(x)));;
+              sectionTresProvider.slideMoments = List<SlidePromo>.from(snapshot.data["section_3"]["moments"].map((x) => SlidePromo.fromMap(x)));;
               return ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(

@@ -52,6 +52,12 @@ class RequestUpload {
           : CommonFuntions().transformText(utilsProvider.logoMenuNew);
     }else if (logo == 'deleteSliderHeader'){
       child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
+    }else if (logo == 'deleteSliderPromo'){
+      child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
+    }else if (logo == 'deleteSliderPromo'){
+      child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
+    }else if (logo == 'deleteSliderPromo'){
+      child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
     }
     print(child);
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance

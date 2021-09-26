@@ -1,6 +1,7 @@
 import 'package:admin_resto_app/src/backend/request.dart';
 import 'package:admin_resto_app/src/backend/request_upload.dart';
 import 'package:admin_resto_app/src/models/section_uno_model.dart';
+import 'package:admin_resto_app/src/providers/section_tres_provider.dart';
 import 'package:admin_resto_app/src/utils/common_funtions.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
 
@@ -14,21 +15,51 @@ class DismissibleSliderWidget extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final modelProvider = Provider.of<ModelProvider>(context);
     final utilsProvider = Provider.of<UtilsProvider>(context);
+    final sectionTresProvider = Provider.of<SectionTresProvider>(context);
     List<SlidePromo> data = [];
 
     List<SlidePromo> setSlider(){
       if (type == 'sliderHeader'){
-
         if (modelProvider.slideHeaderNew.isEmpty){
-          print('estoy aqui');
           data = modelProvider.slideHeader;
         }else{
           data = modelProvider.slideHeaderNew;
         }
       }else if (type == 'sliderPromo'){
-        data = utilsProvider.sectionUnoModel.slidePromo;
+        if (utilsProvider.slidePromoNew.isEmpty){
+          data = utilsProvider.sectionUnoModel.slidePromo;
+        }else{
+          data = utilsProvider.slidePromoNew;
+        }
+      }else if (type == 'sliderRestaurant'){
+        if (sectionTresProvider.slideRestaurantNew.isEmpty){
+          data = sectionTresProvider.slideRestaurant;
+        }else{
+          data = sectionTresProvider.slideRestaurantNew;
+        }
+      }else if (type == 'sliderMoments'){
+        if (sectionTresProvider.slideMomentsNew.isEmpty){
+          data = sectionTresProvider.slideMoments;
+        }else{
+          data = sectionTresProvider.slideMomentsNew;
+        }
       }
       return data;
+    }
+    refreshData (List<SlidePromo> data)async{
+      if (type == 'sliderHeader'){
+        Provider.of<ModelProvider>(context, listen: false).slideHeaderNew = data;
+        await RequestUpload().deleteFile(context, 'img', 'deleteSliderHeader');
+      }else if (type == 'sliderPromo'){
+        Provider.of<UtilsProvider>(context, listen: false).slidePromoNew = data;
+        await RequestUpload().deleteFile(context, 'img', 'deleteSliderPromo');
+      }else if (type == 'sliderRestaurant'){
+        Provider.of<SectionTresProvider>(context, listen: false).slideRestaurantNew = data;
+        await RequestUpload().deleteFile(context, 'img', 'deleteSliderRestaurant');
+      }else if (type == 'sliderMoments'){
+        Provider.of<SectionTresProvider>(context, listen: false).slideMomentsNew = data;
+        await RequestUpload().deleteFile(context, 'img', 'deleteSliderMoments');
+      }
     }
     double containerHeight (){
       print((size.height - 40 >= data.length * 80) ? data.length * 80 : size.height - 40);
@@ -51,6 +82,7 @@ class DismissibleSliderWidget extends StatelessWidget {
                       itemCount: data.length,
                       itemBuilder: (context, index){
                         var delWidget = data[index];
+                        print('List view ${data.length}');
                         return Column(
                           children: [
                             SizedBox(height: 20,),
@@ -75,8 +107,7 @@ class DismissibleSliderWidget extends StatelessWidget {
                               onDismissed: (direction) async{
                                 data.remove(delWidget);
                                 Provider.of<ModelProvider>(context, listen: false).slideToDelete = delWidget;
-                                Provider.of<ModelProvider>(context, listen: false).slideHeaderNew = data;
-                                await RequestUpload().deleteFile(context, 'img', 'deleteSliderHeader');
+                                refreshData(data);
                                 await RequestService().removeSlider(context, type);
                               },
                             ),
@@ -88,7 +119,7 @@ class DismissibleSliderWidget extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(child: Container()),
-                    CommonWidgets().ElevatedButtonWidget(context: context, title: 'Add', widget: 'addSliderHeader'),
+                    CommonWidgets().ElevatedButtonWidget(context: context, title: 'Add', widget: 'add$type'),
                     SizedBox(width: 20,)
                   ],
                 ),

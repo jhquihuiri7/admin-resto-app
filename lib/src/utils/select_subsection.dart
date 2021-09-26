@@ -1,3 +1,4 @@
+import 'package:admin_resto_app/src/providers/section_tres_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
 import 'package:admin_resto_app/src/widgets/first_section/contacto_form_widget.dart';
@@ -17,7 +18,10 @@ class SelectSubsection {
       'contacto': ContactoFormWidget(),
       'sliderHeader':DismissibleSliderWidget(type: 'sliderHeader',),
       'sliderPromo':DismissibleSliderWidget(type: 'sliderPromo',),
-      'addSliderHeader': LoadLogoWidget(logo: 'addSliderHeader'),
+      'addsliderHeader': LoadLogoWidget(logo: 'sliderHeader'),
+      'addsliderPromo': LoadLogoWidget(logo: 'sliderPromo'),
+      'sliderRestaurant': DismissibleSliderWidget(type: 'sliderRestaurant',),
+      'sliderMoments': DismissibleSliderWidget(type: 'sliderMoments',),
     };
     return (pages.containsKey(utilsProvider.loadLogo))
         ? pages[utilsProvider.loadLogo]
@@ -27,6 +31,7 @@ class SelectSubsection {
   NetworkImage logoImage(BuildContext context){
     final utilsProvider = Provider.of<UtilsProvider>(context);
     final modelProvider = Provider.of<ModelProvider>(context);
+
     String image = '';
     if (utilsProvider.loadLogo == 'logo'){
       image = modelProvider.logoNew;
@@ -34,7 +39,13 @@ class SelectSubsection {
       image = utilsProvider.logoFooterNew;
     }else if (utilsProvider.loadLogo == 'logoMenu'){
       image = utilsProvider.logoMenuNew;
-    }else if (utilsProvider.loadLogo == 'addSliderHeader'){
+    }else if (utilsProvider.loadLogo.substring(3) == 'sliderHeader'){
+      image = modelProvider.slideNew;
+    }else if (utilsProvider.loadLogo.substring(3) == 'sliderPromo'){
+      image = modelProvider.slideNew;
+    }else if (utilsProvider.loadLogo == 'sliderRestaurant'){
+      image = modelProvider.slideNew;
+    }else if (utilsProvider.loadLogo == 'sliderMoments'){
       image = modelProvider.slideNew;
     }
     return NetworkImage(image);

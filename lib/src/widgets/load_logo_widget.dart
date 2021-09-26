@@ -68,11 +68,16 @@ class LoadLogoWidget extends StatelessWidget {
                       await RequestUpload().deleteFile(context,'img', this.logo);
                       utilsProvider.logoMenuNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
                       await RequestService().replaceMenuPhoto(context);
-                    }else if (this.logo == 'addSliderHeader'){
+                    }else if (this.logo == 'sliderHeader'){
                       modelProvider.slideNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
                       modelProvider.slideHeaderNew = modelProvider.slideHeader;
                       modelProvider.slideHeaderNew.add(SlidePromo(img: modelProvider.slideNew));
-                      await RequestService().addSlider(context);
+                      await RequestService().addSlider(context, logo);
+                    }else if (this.logo == 'sliderPromo'){
+                      modelProvider.slideNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
+                      utilsProvider.slidePromoNew = utilsProvider.sectionUnoModel.slidePromo;
+                      utilsProvider.slidePromoNew.add(SlidePromo(img: modelProvider.slideNew));
+                      await RequestService().addSlider(context, logo);
                     }else{
                       print('No Hago Nada');
                     }

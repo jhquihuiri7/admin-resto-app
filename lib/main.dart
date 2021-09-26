@@ -1,7 +1,9 @@
 import 'package:admin_resto_app/src/pages/main_dash.dart';
+import 'package:admin_resto_app/src/pages/map.dart';
 import 'package:admin_resto_app/src/providers/footer_provider.dart';
 import 'package:admin_resto_app/src/providers/model_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
+import 'package:admin_resto_app/src/providers/section_tres_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -59,6 +61,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => UtilsProvider()),
         ChangeNotifierProvider(create: (_) => ModelProvider()),
         ChangeNotifierProvider(create: (_) => FooterProvider()),
+        ChangeNotifierProvider(create: (_) => SectionTresProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

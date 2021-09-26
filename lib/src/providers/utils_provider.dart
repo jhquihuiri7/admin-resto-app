@@ -64,4 +64,11 @@ class UtilsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<SlidePromo> _slidePromoNew = [];
+  List<SlidePromo> get slidePromoNew => _slidePromoNew;
+  set slidePromoNew (List<SlidePromo> value){
+    _slidePromoNew = value;
+    notifyListeners();
+  }
+
 }

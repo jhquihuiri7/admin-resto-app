@@ -11,6 +11,7 @@ class CommonWidgets {
       onPressed: () {
         utilsProvider.needLoad = true;
         utilsProvider.loadLogo = widget;
+        print(widget);
       },
       child: Text(title),
     );

@@ -31,6 +31,7 @@ class RequestService {
   }
   Future removeSlider (BuildContext context, String type) async {
    final modelProvider = Provider.of<ModelProvider>(context, listen: false);
+   final utilsProvider = Provider.of<UtilsProvider>(context, listen: false);
    String slide = '';
    if (type == 'sliderHeader'){
      slide = 'slide_header';
@@ -38,11 +39,27 @@ class RequestService {
      slide = 'section_1/slide_promo';
    }
    final Uri url = Uri.https(baseUrl, 'la_sazon/$slide.json');
-   await http.put(url, body: json.encode(modelProvider.slideHeaderNew.map((e) => e.toMap()).toList()));
+   if (type == 'sliderHeader'){
+     await http.put(url, body: json.encode(modelProvider.slideHeaderNew.map((e) => e.toMap()).toList()));
+   }else if (type == 'sliderPromo'){
+     await http.put(url, body: json.encode(utilsProvider.slidePromoNew.map((e) => e.toMap()).toList()));
+   }
   }
-  Future addSlider (BuildContext context) async {
+  Future addSlider (BuildContext context, String type) async {
     final modelProvider = Provider.of<ModelProvider>(context, listen: false);
-    final Uri url = Uri.https(baseUrl, 'la_sazon/slide_header.json');
-    await http.put(url, body: json.encode(modelProvider.slideHeaderNew.map((e) => e.toMap()).toList()));
+    final utilsProvider = Provider.of<UtilsProvider>(context, listen: false);
+    String slide = '';
+    if (type == 'sliderHeader'){
+      slide = 'slide_header';
+    }else if (type == 'sliderPromo'){
+      slide = 'section_1/slide_promo';
+      print('Prmo');
+    }
+    final Uri url = Uri.https(baseUrl, 'la_sazon/$slide.json');
+    if (type == 'sliderHeader'){
+      await http.put(url, body: json.encode(modelProvider.slideHeaderNew.map((e) => e.toMap()).toList()));
+    }else if (type == 'sliderPromo'){
+      await http.put(url, body: json.encode(utilsProvider.slidePromoNew.map((e) => e.toMap()).toList()));
+    }
   }
 }
