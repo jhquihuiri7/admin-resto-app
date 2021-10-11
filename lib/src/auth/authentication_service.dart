@@ -20,7 +20,6 @@ class AuthenticationService {
     if (decodedResp['idToken'] == null){
       return 'Usuario o Contraseña no registrados';
     }else {
-      LocalStorage.prefs.setString('idToken', decodedResp['idToken']);
       return '';
     }
   }
@@ -39,6 +38,6 @@ class AuthenticationService {
     }else{
       return '';
     }
-
   }
+
 }

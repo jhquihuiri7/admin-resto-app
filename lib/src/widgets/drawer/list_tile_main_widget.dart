@@ -1,3 +1,4 @@
+import 'package:admin_resto_app/src/auth/local_storage.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:admin_resto_app/src/utils/select_section.dart';
 import 'package:admin_resto_app/src/utils/select_subsection.dart';
@@ -38,6 +39,8 @@ class ListTileMainWidget extends StatelessWidget {
         if (utilsProvider.mainIndex == 4) {
           SelectSection().launchWhatsApp();
         }else if (utilsProvider.mainIndex == 5){
+          LocalStorage.prefs.remove('restaurantName');
+          LocalStorage.prefs.remove('restaurantPath');
           Navigator.pushReplacementNamed(context, 'login');
         }
 
