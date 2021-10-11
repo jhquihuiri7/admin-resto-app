@@ -1,7 +1,14 @@
+import 'package:admin_resto_app/src/auth/authentication_service.dart';
 import 'package:admin_resto_app/src/backend/request.dart';
+import 'package:admin_resto_app/src/backend/request_user.dart';
 import 'package:admin_resto_app/src/providers/footer_provider.dart';
+import 'package:admin_resto_app/src/providers/login_theme_provider.dart';
 import 'package:admin_resto_app/src/utils/common_funtions.dart';
+import 'package:admin_resto_app/src/validators/login_bloc.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class CommonWidgets {
 
@@ -11,7 +18,6 @@ class CommonWidgets {
       onPressed: () {
         utilsProvider.needLoad = true;
         utilsProvider.loadLogo = widget;
-        print(widget);
       },
       child: Text(title),
     );
@@ -33,6 +39,60 @@ class CommonWidgets {
         }
       },
       child: Text(title),
+    );
+  }
+  Widget ElevatedButtonLoginWidget({required BuildContext context, required String title, required LoginBloc bloc}){
+    final loginThemeProvider = Provider.of<LoginThemeProvider>(context);
+    Stream blocStream;
+    if (title == 'Ingresar'){
+      blocStream = bloc.formValidationStream;
+    }else {
+      blocStream = bloc.emailRecoverStream;
+    }
+    return StreamBuilder(
+        stream: blocStream,
+        builder: (context, snapshot){
+          return (loginThemeProvider.isLoading)
+              ? Container(
+                  height: 25,
+                  width: 50,
+                  child: FadeIn(
+                    duration: Duration(milliseconds: 300),
+                    child: LoadingIndicator(
+                      indicatorType: Indicator.ballPulse, /// Required, The loading type of the widget
+                      colors: [Theme.of(context).primaryColor,Theme.of(context).primaryColorDark, Theme.of(context).primaryColorLight],
+                    ),
+                  ),
+              )
+             : ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).accentColor,
+                  ),
+                  onPressed: snapshot.hasData ? () async {
+                    loginThemeProvider.isLoading = true;
+                    if (title == 'Ingresar') {
+                      final resp = await AuthenticationService().signIn(bloc.email, bloc.password, context);
+                      if (resp == ''){
+                        final user = await RequestUser().getRestaurant(context, bloc.email);
+                        Navigator.pushReplacementNamed(context, 'home');
+                      }else {
+                        ShowToast(context, resp, Icon(Icons.error));
+                      }
+
+                    }else if (title == 'Recuperar'){
+                      final resp = await AuthenticationService().ressetPassword(bloc.emailRecover, context);
+                      if (resp == ''){
+                        ShowToast(context, 'Se ha enviado un correo para cambio de contraseña', Icon(Icons.check));
+                        loginThemeProvider.loginType = 'signIn';
+                      }else {
+                        ShowToast(context, resp, Icon(Icons.error));
+                      }
+                    }
+                    loginThemeProvider.isLoading = false;
+                  } : null,
+                  child: Text(title),
+            );
+        }
     );
   }
   Widget ContainerWidget({required Widget widget}){
@@ -248,5 +308,82 @@ class CommonWidgets {
         ),
       ),
     );
+  }
+  StreamBuilder<String> TextFormFieldLoginWidget ({required BuildContext context, required String label, required String title, required LoginBloc bloc}){
+    final loginThemeProvider = Provider.of<LoginThemeProvider>(context);
+    Icon icon = Icon(Icons.account_circle);
+    if (label == 'Usuario'){
+      icon =  Icon(Icons.account_circle, color: Theme.of(context).accentColor);
+    }else if(label == 'UsuarioRecover'){
+      icon =  Icon(Icons.account_circle, color: Theme.of(context).accentColor);
+    }else{
+      icon =  Icon(Icons.lock, color: Theme.of(context).accentColor);
+    }
+
+    bool showPassword(){
+      if (label == 'Usuario'){
+        return false;
+      }else if (label == 'UsuarioRecover'){
+        return false;
+      }else{
+        return loginThemeProvider.hidePassword;
+      }
+    }
+    return StreamBuilder<String>(
+      stream: (label == 'Usuario') ? bloc.emailStream : (label == 'UsuarioRecover') ? bloc.emailRecoverStream : bloc.passwordStream,
+      builder: (context, AsyncSnapshot<String> snapshot){
+        final iconShow = GestureDetector(
+          child: Icon(Icons.remove_red_eye, color: Theme.of(context).accentColor),
+          onTap: (){
+            if (loginThemeProvider.hidePassword){
+              loginThemeProvider.hidePassword = false;
+            }else{
+              loginThemeProvider.hidePassword = true;
+            }
+          },
+        );
+        return Container(
+          child: TextFormField(
+            obscureText: showPassword(),
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                prefixIcon: icon,
+                suffixIcon: (label == 'Usuario' || label == 'UsuarioRecover') ? null : iconShow,
+                labelText: title,
+                errorText: (snapshot.error == null) ? null : snapshot.error.toString(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).accentColor),
+                  borderRadius: BorderRadius.circular(20),
+                )
+            ),
+            onChanged: (label == 'Usuario') ? bloc.changeMail : (label == 'UsuarioRecover') ? bloc.changeMailRecover : bloc.changePassword,
+          ),
+        );
+      },
+    );
+  }
+  void ShowToast (BuildContext context, String text, Icon icon){
+    FToast toast = FToast().init(context);
+    toast.showToast(
+      toastDuration: Duration(seconds: 2),
+      positionedToastBuilder: (context, child) {
+        return Positioned(
+          child: child,
+          top: 16.0,
+          left: 16.0,
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          icon,
+          SizedBox(width:20,),
+          Text(text, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+        ]
+    ),);
   }
 }

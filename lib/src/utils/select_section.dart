@@ -27,9 +27,7 @@ class SelectSection {
       phoneNumber: '+593982291894',
       text: "Estimados Logiciel Applab, los contactamos de parte de la empresa La Sazon debido a que tenemos ciertos inconvenientes con:",
     );
-    // Convert the WhatsAppUnilink instance to a string.
-    // Use either Dart's string interpolation or the toString() method.
-    // The "launch" method is part of "url_launcher".
+
     await launch('$link');
   }
 }

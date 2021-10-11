@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:admin_resto_app/src/providers/auth_provider.dart';
 import 'package:admin_resto_app/src/utils/common_funtions.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
 import 'package:image_picker_web/image_picker_web.dart';
@@ -13,7 +14,8 @@ class RequestUpload {
     return mediaInfo;
   }
   Future<String?> uploadFile(
-      MediaInfo mediaInfo, String refString, String fileName) async {
+      BuildContext context,MediaInfo mediaInfo, String fileName) async {
+    final restaurant = Provider.of<AuthProvider>(context, listen: false).restaurantPath;
     try {
       String? mimeType = mime(path.basename(mediaInfo.fileName.toString()));
 
@@ -22,7 +24,7 @@ class RequestUpload {
       );
       Uint8List info = mediaInfo.data as Uint8List;
       firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-          .ref(refString).child(fileName);
+          .ref(restaurant).child(fileName);
       firebase_storage.TaskSnapshot uploadTaskSnapshot =
       await ref.putData(info , metadata);
 
@@ -34,9 +36,10 @@ class RequestUpload {
       return null;
     }
   }
-  Future deleteFile(BuildContext context, String refString, String logo) async {
+  Future deleteFile(BuildContext context, String logo) async {
     final modelProvider = Provider.of<ModelProvider>(context, listen: false);
     final utilsProvider = Provider.of<UtilsProvider>(context, listen: false);
+    final restaurant = Provider.of<AuthProvider>(context, listen: false).restaurantPath;
     String child = '';
     if ( logo == 'logo') {
       child = (modelProvider.logoNew == '')
@@ -54,14 +57,14 @@ class RequestUpload {
       child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
     }else if (logo == 'deleteSliderPromo'){
       child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
-    }else if (logo == 'deleteSliderPromo'){
+    }else if (logo == 'deleteSliderRestaurant'){
       child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
-    }else if (logo == 'deleteSliderPromo'){
+    }else if (logo == 'deleteSliderMoments'){
       child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
     }
     print(child);
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-        .ref(refString).child(child);
+        .ref(restaurant).child(child);
     try {
       await ref.delete();
       return true;

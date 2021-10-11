@@ -56,25 +56,25 @@ class LoadLogoWidget extends StatelessWidget {
                     MediaInfo mediaInfo = await RequestUpload().imagePicker();
                     utilsProvider.isLoading = true;
                     if (this.logo == 'logo') {
-                      await RequestUpload().deleteFile(context,'img', this.logo);
-                      modelProvider.logoNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
+                      await RequestUpload().deleteFile(context, this.logo);
+                      modelProvider.logoNew = await RequestUpload().uploadFile(context, mediaInfo, mediaInfo.fileName.toString()) as String;
                       await RequestService().replaceLogo(context, modelProvider.logoNew);
                     }else if (this.logo == 'logoFooter'){
-                      await RequestUpload().deleteFile(context,'img', this.logo);
-                      utilsProvider.logoFooterNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
+                      await RequestUpload().deleteFile(context, this.logo);
+                      utilsProvider.logoFooterNew = await RequestUpload().uploadFile(context, mediaInfo, mediaInfo.fileName.toString()) as String;
                       utilsProvider.footerModel.logoFooter = utilsProvider.logoFooterNew;
                       await RequestService().replaceFooter(context);
                     }else if (this.logo == 'logoMenu'){
-                      await RequestUpload().deleteFile(context,'img', this.logo);
-                      utilsProvider.logoMenuNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
+                      await RequestUpload().deleteFile(context, this.logo);
+                      utilsProvider.logoMenuNew = await RequestUpload().uploadFile(context, mediaInfo, mediaInfo.fileName.toString()) as String;
                       await RequestService().replaceMenuPhoto(context);
                     }else if (this.logo == 'sliderHeader'){
-                      modelProvider.slideNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
+                      modelProvider.slideNew = await RequestUpload().uploadFile(context, mediaInfo, mediaInfo.fileName.toString()) as String;
                       modelProvider.slideHeaderNew = modelProvider.slideHeader;
                       modelProvider.slideHeaderNew.add(SlidePromo(img: modelProvider.slideNew));
                       await RequestService().addSlider(context, logo);
                     }else if (this.logo == 'sliderPromo'){
-                      modelProvider.slideNew = await RequestUpload().uploadFile(mediaInfo, 'img', mediaInfo.fileName.toString()) as String;
+                      modelProvider.slideNew = await RequestUpload().uploadFile(context, mediaInfo, mediaInfo.fileName.toString()) as String;
                       utilsProvider.slidePromoNew = utilsProvider.sectionUnoModel.slidePromo;
                       utilsProvider.slidePromoNew.add(SlidePromo(img: modelProvider.slideNew));
                       await RequestService().addSlider(context, logo);

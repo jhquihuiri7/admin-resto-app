@@ -37,6 +37,8 @@ class ListTileMainWidget extends StatelessWidget {
         utilsProvider.mainIndex = index;
         if (utilsProvider.mainIndex == 4) {
           SelectSection().launchWhatsApp();
+        }else if (utilsProvider.mainIndex == 5){
+          Navigator.pushReplacementNamed(context, 'login');
         }
 
       },

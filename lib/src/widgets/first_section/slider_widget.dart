@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class SliderWidget extends StatelessWidget {
-  final List<Widget> slider = [];
+
   final String sliderType;
   SliderWidget({required this.sliderType});
   @override
@@ -45,6 +45,7 @@ class SliderWidget extends StatelessWidget {
     }
 
     List<Widget> generateSlider (){
+      List<Widget> slider = [];
       setSlider().forEach((element) {
         final widgetTemp = Image(
           image: NetworkImage(element.img),

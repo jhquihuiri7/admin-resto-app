@@ -1,15 +1,21 @@
+import 'package:admin_resto_app/src/auth/local_storage.dart';
+import 'package:admin_resto_app/src/pages/login.dart';
 import 'package:admin_resto_app/src/pages/main_dash.dart';
-import 'package:admin_resto_app/src/pages/map.dart';
+import 'package:admin_resto_app/src/providers/auth_provider.dart';
+import 'package:admin_resto_app/src/providers/login_theme_provider.dart';
 import 'package:admin_resto_app/src/providers/footer_provider.dart';
 import 'package:admin_resto_app/src/providers/model_provider.dart';
+import 'package:admin_resto_app/src/providers/section_cuatro_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:admin_resto_app/src/providers/section_tres_provider.dart';
+import 'package:admin_resto_app/src/validators/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocalStorage.configurePrefs();
   runApp(MyApp());
 
 
@@ -62,11 +68,19 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ModelProvider()),
         ChangeNotifierProvider(create: (_) => FooterProvider()),
         ChangeNotifierProvider(create: (_) => SectionTresProvider()),
+        ChangeNotifierProvider(create: (_) => SectionCuatroProvider()),
+        ChangeNotifierProvider(create: (_) => LoginThemeProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        Provider (create: (_) => LoginBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Administrador | Restaurantes',
-        home: MainDash(),
+        initialRoute: 'login',
+        routes: <String, WidgetBuilder>{
+          'login': (_) => LoginScreen(),
+          'home': (_) => MainDash(),
+        },
         theme: ThemeData(
           primaryColor: Color(0xfffe6d6a),
           accentColor: Color(0xff858ef3),

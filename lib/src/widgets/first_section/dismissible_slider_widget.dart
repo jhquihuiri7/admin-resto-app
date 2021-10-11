@@ -49,16 +49,17 @@ class DismissibleSliderWidget extends StatelessWidget {
     refreshData (List<SlidePromo> data)async{
       if (type == 'sliderHeader'){
         Provider.of<ModelProvider>(context, listen: false).slideHeaderNew = data;
-        await RequestUpload().deleteFile(context, 'img', 'deleteSliderHeader');
+        await RequestUpload().deleteFile(context, 'deleteSliderHeader');
       }else if (type == 'sliderPromo'){
         Provider.of<UtilsProvider>(context, listen: false).slidePromoNew = data;
-        await RequestUpload().deleteFile(context, 'img', 'deleteSliderPromo');
+        await RequestUpload().deleteFile(context, 'deleteSliderPromo');
       }else if (type == 'sliderRestaurant'){
         Provider.of<SectionTresProvider>(context, listen: false).slideRestaurantNew = data;
-        await RequestUpload().deleteFile(context, 'img', 'deleteSliderRestaurant');
+        await RequestUpload().deleteFile(context, 'deleteSliderRestaurant');
       }else if (type == 'sliderMoments'){
         Provider.of<SectionTresProvider>(context, listen: false).slideMomentsNew = data;
-        await RequestUpload().deleteFile(context, 'img', 'deleteSliderMoments');
+        print(Provider.of<SectionTresProvider>(context, listen: false).slideMomentsNew.length);
+        await RequestUpload().deleteFile(context, 'deleteSliderMoments');
       }
     }
     double containerHeight (){
@@ -82,7 +83,6 @@ class DismissibleSliderWidget extends StatelessWidget {
                       itemCount: data.length,
                       itemBuilder: (context, index){
                         var delWidget = data[index];
-                        print('List view ${data.length}');
                         return Column(
                           children: [
                             SizedBox(height: 20,),

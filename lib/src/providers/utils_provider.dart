@@ -1,6 +1,7 @@
 import 'package:admin_resto_app/src/models/footer_model.dart';
 import 'package:admin_resto_app/src/models/section_uno_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class UtilsProvider extends ChangeNotifier {
   int _mainIndex = 100;
@@ -70,5 +71,6 @@ class UtilsProvider extends ChangeNotifier {
     _slidePromoNew = value;
     notifyListeners();
   }
+
 
 }

@@ -1,16 +1,19 @@
-import 'package:admin_resto_app/src/providers/section_tres_provider.dart';
+import 'package:admin_resto_app/src/providers/section_cuatro_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
 import 'package:admin_resto_app/src/widgets/first_section/contacto_form_widget.dart';
 import 'package:admin_resto_app/src/widgets/first_section/dismissible_slider_widget.dart';
+import 'package:admin_resto_app/src/widgets/fourth_section/map_widget.dart';
 import 'package:admin_resto_app/src/widgets/load_logo_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 
 class SelectSubsection {
   Widget? selectSubsection (BuildContext context){
     final utilsProvider = Provider.of<UtilsProvider>(context);
+
     Map<String, Widget> pages = <String, Widget>{
       'logo': LoadLogoWidget(logo: 'logo'),
       'logoFooter': LoadLogoWidget(logo: 'logoFooter'),
@@ -22,6 +25,7 @@ class SelectSubsection {
       'addsliderPromo': LoadLogoWidget(logo: 'sliderPromo'),
       'sliderRestaurant': DismissibleSliderWidget(type: 'sliderRestaurant',),
       'sliderMoments': DismissibleSliderWidget(type: 'sliderMoments',),
+      'map': MapWidget(),
     };
     return (pages.containsKey(utilsProvider.loadLogo))
         ? pages[utilsProvider.loadLogo]
@@ -55,4 +59,26 @@ class SelectSubsection {
     final utilsProvider = Provider.of<UtilsProvider>(context, listen: false);
     utilsProvider.loadLogo = '';
   }
+
+  LatLng setLatLng(BuildContext context){
+    final sectionCuatroProvider = Provider.of<SectionCuatroProvider>(context, listen: false);
+    if (sectionCuatroProvider.latNew == '' && sectionCuatroProvider.lngNew == ''){
+      if (sectionCuatroProvider.sectionCuatro.map.lat == ''){
+        return LatLng(0,0);
+      }else {
+        return LatLng(
+            double.parse(sectionCuatroProvider.sectionCuatro.map.lat),
+            double.parse(sectionCuatroProvider.sectionCuatro.map.lng)
+        );
+      }
+    }else {
+      print('no vacio');
+      return LatLng(
+          double.parse(sectionCuatroProvider.latNew),
+          double.parse(sectionCuatroProvider.lngNew)
+      );
+    }
+
+  }
+
 }

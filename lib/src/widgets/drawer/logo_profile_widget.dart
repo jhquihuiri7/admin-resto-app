@@ -1,5 +1,8 @@
 import 'package:admin_resto_app/src/models/footer_model.dart';
+import 'package:admin_resto_app/src/models/section_cuatro_model.dart';
 import 'package:admin_resto_app/src/models/section_uno_model.dart';
+import 'package:admin_resto_app/src/providers/auth_provider.dart';
+import 'package:admin_resto_app/src/providers/section_cuatro_provider.dart';
 import 'package:admin_resto_app/src/providers/section_tres_provider.dart';
 import 'package:admin_resto_app/src/utils/themes.dart';
 import 'package:admin_resto_app/src/backend/request.dart';
@@ -15,6 +18,8 @@ class LogoProfileWidget extends StatelessWidget {
     final utilsProvider = Provider.of<UtilsProvider>(context);
     final modelProvider = Provider.of<ModelProvider>(context);
     final sectionTresProvider = Provider.of<SectionTresProvider>(context);
+    final sectionCuatroProvider = Provider.of<SectionCuatroProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
     return Column(
       children: [
         SizedBox(height: size.height * 0.05,),
@@ -31,6 +36,8 @@ class LogoProfileWidget extends StatelessWidget {
 
               sectionTresProvider.slideRestaurant = List<SlidePromo>.from(snapshot.data["section_3"]["restaurant"].map((x) => SlidePromo.fromMap(x)));;
               sectionTresProvider.slideMoments = List<SlidePromo>.from(snapshot.data["section_3"]["moments"].map((x) => SlidePromo.fromMap(x)));;
+
+              sectionCuatroProvider.sectionCuatro = SectionCuatroModel.fromJson(snapshot.data["section_4"]);
               return ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
@@ -50,7 +57,7 @@ class LogoProfileWidget extends StatelessWidget {
           },
         ),
         SizedBox(height: size.height * 0.02,),
-        TitleTheme().titleTheme('La Sazon',1),
+        TitleTheme().titleTheme(authProvider.restaurantName,1),
         SizedBox(height: size.height * 0.05,),
       ],
     );

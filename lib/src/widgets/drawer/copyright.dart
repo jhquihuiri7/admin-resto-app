@@ -8,7 +8,7 @@ class CopyRight extends StatelessWidget {
       height: size.height * 0.06,
       width: double.infinity,
       child: Center(
-        child: Text('copyright © Logiciel AppLab', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),),
+        child: Text('© Logiciel AppLab | 2021', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),),
       ),
     );
   }
