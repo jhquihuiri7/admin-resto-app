@@ -3,10 +3,12 @@ import 'package:admin_resto_app/src/pages/check_auth_page.dart';
 import 'package:admin_resto_app/src/pages/login.dart';
 import 'package:admin_resto_app/src/pages/main_dash.dart';
 import 'package:admin_resto_app/src/providers/auth_provider.dart';
+import 'package:admin_resto_app/src/providers/constraint_provider.dart';
 import 'package:admin_resto_app/src/providers/login_theme_provider.dart';
 import 'package:admin_resto_app/src/providers/footer_provider.dart';
 import 'package:admin_resto_app/src/providers/model_provider.dart';
 import 'package:admin_resto_app/src/providers/section_cuatro_provider.dart';
+import 'package:admin_resto_app/src/providers/section_dos_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:admin_resto_app/src/providers/section_tres_provider.dart';
 import 'package:admin_resto_app/src/validators/login_bloc.dart';
@@ -69,10 +71,12 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => UtilsProvider()),
         ChangeNotifierProvider(create: (_) => ModelProvider()),
         ChangeNotifierProvider(create: (_) => FooterProvider()),
+        ChangeNotifierProvider(create: (_) => SectionDosProvider()),
         ChangeNotifierProvider(create: (_) => SectionTresProvider()),
         ChangeNotifierProvider(create: (_) => SectionCuatroProvider()),
         ChangeNotifierProvider(create: (_) => LoginThemeProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => ConstraintProvider()),
         Provider (create: (_) => LoginBloc()),
       ],
 

@@ -1,8 +1,10 @@
 import 'package:admin_resto_app/src/models/footer_model.dart';
 import 'package:admin_resto_app/src/models/section_cuatro_model.dart';
+import 'package:admin_resto_app/src/models/section_dos_model.dart';
 import 'package:admin_resto_app/src/models/section_uno_model.dart';
 import 'package:admin_resto_app/src/providers/auth_provider.dart';
 import 'package:admin_resto_app/src/providers/section_cuatro_provider.dart';
+import 'package:admin_resto_app/src/providers/section_dos_provider.dart';
 import 'package:admin_resto_app/src/providers/section_tres_provider.dart';
 import 'package:admin_resto_app/src/utils/themes.dart';
 import 'package:admin_resto_app/src/backend/request.dart';
@@ -17,6 +19,7 @@ class LogoProfileWidget extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     final utilsProvider = Provider.of<UtilsProvider>(context);
     final modelProvider = Provider.of<ModelProvider>(context);
+    final sectionDosProvider = Provider.of<SectionDosProvider>(context);
     final sectionTresProvider = Provider.of<SectionTresProvider>(context);
     final sectionCuatroProvider = Provider.of<SectionCuatroProvider>(context);
     final authProvider = Provider.of<AuthProvider>(context);
@@ -33,6 +36,8 @@ class LogoProfileWidget extends StatelessWidget {
 
               modelProvider.logo = snapshot.data['logo'];
               modelProvider.slideHeader = List<SlidePromo>.from(snapshot.data["slide_header"].map((x) => SlidePromo.fromMap(x)));
+
+              sectionDosProvider.sectionDosModel = SectionDosModel.fromJson(snapshot.data['section_2']);
 
               sectionTresProvider.slideRestaurant = List<SlidePromo>.from(snapshot.data["section_3"]["restaurant"].map((x) => SlidePromo.fromMap(x)));;
               sectionTresProvider.slideMoments = List<SlidePromo>.from(snapshot.data["section_3"]["moments"].map((x) => SlidePromo.fromMap(x)));;

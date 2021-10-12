@@ -1,4 +1,5 @@
 import 'package:admin_resto_app/src/auth/local_storage.dart';
+import 'package:admin_resto_app/src/providers/constraint_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:admin_resto_app/src/utils/select_section.dart';
 import 'package:admin_resto_app/src/utils/select_subsection.dart';
@@ -14,11 +15,12 @@ class ListTileMainWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final utilsProvider = Provider.of<UtilsProvider>(context, listen: false);
+    final constraintProvider = Provider.of<ConstraintProvider>(context, listen: false);
     TextStyle style = TextStyle(fontSize: 13, color: (this.index == utilsProvider.mainIndex)
         ? Theme.of(context).primaryColor
         : Colors.blueGrey);
     return ListTile(
-      title: Text(title, style: style,),
+      title: Text((constraintProvider.screenType == 2)?title:'', style: style,),
       trailing: Container(
         height: 20,
         width: 3,

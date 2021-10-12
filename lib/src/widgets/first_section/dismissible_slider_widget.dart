@@ -95,7 +95,7 @@ class DismissibleSliderWidget extends StatelessWidget {
                               ),
                               key: Key(data[index].img),
                               child: ListTile(
-                                title: Text(CommonFuntions().transformText(data[index].img)),
+                                title: Text(CommonFuntions().transformText(context ,data[index].img)),
                                 leading: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),
                                   child: Image(

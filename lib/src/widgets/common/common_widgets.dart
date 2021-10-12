@@ -1,12 +1,14 @@
 import 'package:admin_resto_app/src/auth/authentication_service.dart';
 import 'package:admin_resto_app/src/backend/request.dart';
 import 'package:admin_resto_app/src/backend/request_user.dart';
+import 'package:admin_resto_app/src/providers/constraint_provider.dart';
 import 'package:admin_resto_app/src/providers/footer_provider.dart';
 import 'package:admin_resto_app/src/providers/login_theme_provider.dart';
 import 'package:admin_resto_app/src/utils/common_funtions.dart';
 import 'package:admin_resto_app/src/validators/login_bloc.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
@@ -149,6 +151,7 @@ class CommonWidgets {
     final Size size = MediaQuery.of(context).size;
     final modelProvider = Provider.of<ModelProvider>(context);
     final utilsProvider = Provider.of<UtilsProvider>(context);
+    final constraintProvider = Provider.of<ConstraintProvider>(context, listen: false);
 
     ImageProvider<Object> selectImage ({required String logo}){
       if (logo == 'logo'){
@@ -171,17 +174,17 @@ class CommonWidgets {
     Widget selectUrl (){
       if (logo == 'logo'){
         return Text((modelProvider.logoNew == '')
-            ? CommonFuntions().transformText(modelProvider.logo)
-            : CommonFuntions().transformText(modelProvider.logoNew),
+            ? CommonFuntions().transformText(context, modelProvider.logo)
+            : CommonFuntions().transformText(context, modelProvider.logoNew),
         );
       }else if (logo == 'logoFooter'){
         return (utilsProvider.logoFooterNew == '')
-            ? Text(CommonFuntions().transformText(utilsProvider.footerModel.logoFooter))
-            : Text(CommonFuntions().transformText(utilsProvider.logoFooterNew));
+            ? Text(CommonFuntions().transformText(context, utilsProvider.footerModel.logoFooter), overflow: TextOverflow.ellipsis,)
+            : Text(CommonFuntions().transformText(context, utilsProvider.logoFooterNew));
       } else if(logo == 'logoMenu'){
         return (utilsProvider.logoMenuNew == '')
-            ? Text(CommonFuntions().transformText(utilsProvider.sectionUnoModel.menuPhoto))
-            : Text(CommonFuntions().transformText(utilsProvider.logoMenuNew));
+            ? Text(CommonFuntions().transformText(context, utilsProvider.sectionUnoModel.menuPhoto), overflow: TextOverflow.ellipsis,)
+            : Text(CommonFuntions().transformText(context, utilsProvider.logoMenuNew));
       } else {
         return Text('');
       }
@@ -209,7 +212,9 @@ class CommonWidgets {
           ),
         ),
         Container(
-            width: size.width * 0.2,
+            width: (constraintProvider.screenType == 2)
+                ? size.width * 0.2
+                : (constraintProvider.screenType == 1) ? size.width * 0.1 : size.width * 0.07,
             height: 15,
             child: PageView(
               children: [

@@ -43,24 +43,24 @@ class RequestUpload {
     String child = '';
     if ( logo == 'logo') {
       child = (modelProvider.logoNew == '')
-          ? CommonFuntions().transformText(modelProvider.logo)
-          : CommonFuntions().transformText(modelProvider.logoNew);
+          ? CommonFuntions().transformTextBackend(modelProvider.logo)
+          : CommonFuntions().transformTextBackend(modelProvider.logoNew);
     }else if (logo == 'logoFooter'){
       child = (utilsProvider.logoFooterNew == '')
-          ? CommonFuntions().transformText(utilsProvider.footerModel.logoFooter)
-          : CommonFuntions().transformText(utilsProvider.logoFooterNew);
+          ? CommonFuntions().transformTextBackend(utilsProvider.footerModel.logoFooter)
+          : CommonFuntions().transformTextBackend(utilsProvider.logoFooterNew);
     }else if (logo == 'logoMenu'){
       child = (utilsProvider.logoMenuNew == '')
-          ? CommonFuntions().transformText(utilsProvider.sectionUnoModel.menuPhoto)
-          : CommonFuntions().transformText(utilsProvider.logoMenuNew);
+          ? CommonFuntions().transformTextBackend(utilsProvider.sectionUnoModel.menuPhoto)
+          : CommonFuntions().transformTextBackend(utilsProvider.logoMenuNew);
     }else if (logo == 'deleteSliderHeader'){
-      child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
+      child = CommonFuntions().transformTextBackend(modelProvider.slideToDelete.img);
     }else if (logo == 'deleteSliderPromo'){
-      child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
+      child = CommonFuntions().transformTextBackend(modelProvider.slideToDelete.img);
     }else if (logo == 'deleteSliderRestaurant'){
-      child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
+      child = CommonFuntions().transformTextBackend(modelProvider.slideToDelete.img);
     }else if (logo == 'deleteSliderMoments'){
-      child = CommonFuntions().transformText(modelProvider.slideToDelete.img);
+      child = CommonFuntions().transformTextBackend(modelProvider.slideToDelete.img);
     }
     print(child);
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance

@@ -1,5 +1,4 @@
 import 'package:admin_resto_app/src/backend/request.dart';
-import 'package:admin_resto_app/src/models/footer_model.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';

@@ -62,7 +62,7 @@ class FooterInfoWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SocialMediaButtonWidget(red: 'Facebook'),
-              SizedBox(width: 40,),
+              SizedBox(width: size.width * 0.05,),
               SocialMediaButtonWidget(red: 'Instagram'),
             ],
           ),
