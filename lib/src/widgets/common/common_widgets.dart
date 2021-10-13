@@ -75,8 +75,8 @@ class CommonWidgets {
                     if (title == 'Ingresar') {
                       final resp = await AuthenticationService().signIn(bloc.email, bloc.password, context);
                       if (resp == ''){
-                        final user = await RequestUser().getRestaurant(context, bloc.email);
-                        Navigator.pushReplacementNamed(context, 'home');
+                        await RequestUser().getRestaurant(context, bloc.email);
+                        Navigator.pushReplacementNamed(context, '/home');
                       }else {
                         ShowToast(context, resp, Icon(Icons.error));
                       }
