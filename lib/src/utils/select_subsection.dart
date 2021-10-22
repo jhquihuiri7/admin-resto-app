@@ -1,4 +1,5 @@
 import 'package:admin_resto_app/src/providers/section_cuatro_provider.dart';
+import 'package:admin_resto_app/src/providers/section_dos_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
 import 'package:admin_resto_app/src/widgets/first_section/contacto_form_widget.dart';
@@ -37,6 +38,7 @@ class SelectSubsection {
   NetworkImage logoImage(BuildContext context){
     final utilsProvider = Provider.of<UtilsProvider>(context);
     final modelProvider = Provider.of<ModelProvider>(context);
+    final sectionDosProvider = Provider.of<SectionDosProvider>(context);
 
     String image = '';
     if (utilsProvider.loadLogo == 'logo'){
@@ -53,6 +55,9 @@ class SelectSubsection {
       image = modelProvider.slideNew;
     }else if (utilsProvider.loadLogo == 'sliderMoments'){
       image = modelProvider.slideNew;
+    }
+    else if (utilsProvider.loadLogo == 'addItem'){
+      image = sectionDosProvider.menuItem.img;
     }
     return NetworkImage(image);
   }

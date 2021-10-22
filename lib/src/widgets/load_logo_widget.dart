@@ -2,6 +2,7 @@ import 'package:admin_resto_app/src/backend/request.dart';
 import 'package:admin_resto_app/src/backend/request_upload.dart';
 import 'package:admin_resto_app/src/models/section_uno_model.dart';
 import 'package:admin_resto_app/src/providers/model_provider.dart';
+import 'package:admin_resto_app/src/providers/section_dos_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:admin_resto_app/src/utils/select_subsection.dart';
 import 'package:admin_resto_app/src/widgets/second_section/add_menu_item_widget.dart';
@@ -19,6 +20,7 @@ class LoadLogoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final utilsProvider = Provider.of<UtilsProvider>(context);
     final modelProvider = Provider.of<ModelProvider>(context);
+    final sectionDosProvider = Provider.of<SectionDosProvider>(context);
     final Size size = MediaQuery.of(context).size;
     return Column(
       children: [
@@ -79,6 +81,8 @@ class LoadLogoWidget extends StatelessWidget {
                       utilsProvider.slidePromoNew = utilsProvider.sectionUnoModel.slidePromo;
                       utilsProvider.slidePromoNew.add(SlidePromo(img: modelProvider.slideNew));
                       await RequestService().addSlider(context, logo);
+                    }else if (this.logo == 'addItem'){
+                      sectionDosProvider.menuItem.img = await RequestUpload().uploadFile(context, mediaInfo, mediaInfo.fileName.toString()) as String;
                     }else{
                       print('No Hago Nada');
                     }

@@ -1,6 +1,8 @@
 import 'package:admin_resto_app/src/auth/authentication_service.dart';
 import 'package:admin_resto_app/src/backend/request.dart';
+import 'package:admin_resto_app/src/backend/request_upload.dart';
 import 'package:admin_resto_app/src/backend/request_user.dart';
+import 'package:admin_resto_app/src/models/section_dos_model.dart';
 import 'package:admin_resto_app/src/providers/constraint_provider.dart';
 import 'package:admin_resto_app/src/providers/footer_provider.dart';
 import 'package:admin_resto_app/src/providers/login_theme_provider.dart';
@@ -28,6 +30,9 @@ class CommonWidgets {
           sectionDosProvider.sectionIndex = indexMenu;
           RequestService().deleteSection(context);
         }else{
+          if (widget == 'addItem'){
+            sectionDosProvider.sectionIndex = indexMenu;
+          }
           utilsProvider.needLoad = true;
           utilsProvider.loadLogo = widget;
         }
@@ -41,10 +46,8 @@ class CommonWidgets {
     final sectionDosProvider = Provider.of<SectionDosProvider>(context);
     return ElevatedButton(
       onPressed: () async {
-        print('AQUIIIIIIIIIIIII');
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
-          print('VALLLLLLLLLLLLLLLLLLLLL');
           if (section == 'footer'){
             utilsProvider.footerModel.contacto.direccion = footerProvider.direccion;
             utilsProvider.footerModel.contacto.mail = footerProvider.mail;
@@ -52,11 +55,22 @@ class CommonWidgets {
             await RequestService().replaceFooter(context);
           }
           if (section == 'sectionDos'){
-            print("DOSSSSSSSSSSSSSSSSSssssss");
-            sectionDosProvider.menuItem.img = 'https://firebasestorage.googleapis.com/v0/b/admin-resto-app.appspot.com/o/la_sazon%2Flogo_icon.png?alt=media&token=7ba01d10-06dd-4d30-9bdd-8fea43a54845';
-            sectionDosProvider.sectionDosModelNew = sectionDosProvider.sectionDosModel;
-            sectionDosProvider.sectionDosModelNew.typeMenu.elementAt(0).menu.add(sectionDosProvider.menuItem);
-            sectionDosProvider.sectionDosModelNew = sectionDosProvider.sectionDosModelNew;
+            final Menu newMenu = new Menu(
+                description: (sectionDosProvider.menuItem.description != '') ? sectionDosProvider.menuItem.description :'',
+                img: sectionDosProvider.menuItem.img,
+                price: (sectionDosProvider.menuItem.price != '') ? sectionDosProvider.menuItem.price :'',
+                title: sectionDosProvider.menuItem.title,);
+            if (sectionDosProvider.sectionDosModelNew.typeMenu.isEmpty){
+              sectionDosProvider.sectionDosModelNew = sectionDosProvider.sectionDosModel;
+            }
+            if (sectionDosProvider.menuItem.img != '' && sectionDosProvider.menuItem.title != ''){
+              sectionDosProvider.sectionDosModelNew.typeMenu.elementAt(sectionDosProvider.sectionIndex).menu.add(newMenu);
+              sectionDosProvider.sectionDosModelNew = sectionDosProvider.sectionDosModelNew;
+              await RequestService().addSection(context);
+            }else {
+              final snackBar = SnackBar(content: Text('Imagen y título de menú son parámetros obligatorios'));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
           }
         }
       },

@@ -81,7 +81,8 @@ class _TypeMenuListState extends State<TypeMenuList> {
           CommonWidgets().ElevatedButtonWidget(
               context: context,
               title: '+ Item',
-              widget: 'addItem'
+              widget: 'addItem',
+              indexMenu: indexMenu
           ),
           SizedBox(width: 20,)
         ],
