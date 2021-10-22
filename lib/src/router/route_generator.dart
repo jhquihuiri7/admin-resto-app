@@ -38,7 +38,5 @@ class RouteGenerator {
           settings: RouteSettings(name: '/pagina_no_encontrada')
         );
     }
-
-    return MaterialPageRoute(builder: (_)=> LoginScreen());
   }
 }

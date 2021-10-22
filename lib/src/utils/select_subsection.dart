@@ -5,6 +5,7 @@ import 'package:admin_resto_app/src/widgets/first_section/contacto_form_widget.d
 import 'package:admin_resto_app/src/widgets/first_section/dismissible_slider_widget.dart';
 import 'package:admin_resto_app/src/widgets/fourth_section/map_widget.dart';
 import 'package:admin_resto_app/src/widgets/load_logo_widget.dart';
+import 'package:admin_resto_app/src/widgets/second_section/add_menu_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,7 @@ class SelectSubsection {
       'sliderRestaurant': DismissibleSliderWidget(type: 'sliderRestaurant',),
       'sliderMoments': DismissibleSliderWidget(type: 'sliderMoments',),
       'map': MapWidget(),
+      'addItem': LoadLogoWidget(logo: 'addItem'),
     };
     return (pages.containsKey(utilsProvider.loadLogo))
         ? pages[utilsProvider.loadLogo]

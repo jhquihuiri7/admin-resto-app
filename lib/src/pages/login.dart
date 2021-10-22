@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             SizedBox(width: double.infinity,),
             Image(
-              image: AssetImage('favicon.png'),
+              image: AssetImage('assets/favicon.png'),
               height: 75,
               width: 75,
             ),

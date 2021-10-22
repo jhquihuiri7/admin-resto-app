@@ -12,8 +12,18 @@ class PageNotFound extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(width:double.infinity),
-          Image(image: AssetImage('404.png'), height: size.height * 0.7, width: size.height * 0.7,),
+          Image(
+            image: AssetImage('assets/404.png'),
+            height: size.height * 0.7,
+            width: size.height * 0.7,
+            fit: BoxFit.cover,
+          ),
           TitleTheme().titleTheme('Página No Encontrada', 1),
+          SizedBox(height: 20,),
+          CommonWidgets().ElevatedButtonWidget(
+              context: context,
+              title: 'Regresar',
+              widget: 'return')
         ],
       ),
     );

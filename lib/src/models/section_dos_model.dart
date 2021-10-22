@@ -34,7 +34,7 @@ class TypeMenu {
   String type;
 
   factory TypeMenu.fromJson(Map<String, dynamic> json) => TypeMenu(
-    menu: List<Menu>.from(json["menu"].map((x) => Menu.fromJson(x))),
+    menu: (json.containsKey('menu')) ? List<Menu>.from(json["menu"].map((x) => Menu.fromJson(x))) : [],
     type: json["type"],
   );
 

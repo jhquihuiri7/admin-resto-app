@@ -4,6 +4,7 @@ import 'package:admin_resto_app/src/models/section_uno_model.dart';
 import 'package:admin_resto_app/src/providers/model_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:admin_resto_app/src/utils/select_subsection.dart';
+import 'package:admin_resto_app/src/widgets/second_section/add_menu_item_widget.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
@@ -23,7 +24,7 @@ class LoadLogoWidget extends StatelessWidget {
       children: [
         SizedBox(height: 20,),
         Container(
-          height: 225,
+          //height: 225,
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -98,7 +99,8 @@ class LoadLogoWidget extends StatelessWidget {
                   ),
                 ),
               )
-              : Container()
+              : Container(),
+              (logo == 'addItem')? AddMenuItemWidget() : Container(),
             ],
           ),
         ),

@@ -28,7 +28,7 @@ class ContactoFormWidget extends StatelessWidget {
                CommonWidgets().ContainerTitle(context: context, title: 'Teléfono'),
                CommonWidgets().TextFormFieldWidget(context: context, field: 'Teléfono'),
                SizedBox(height: 20,),
-               CommonWidgets().ElevatedButtonSaveWidget(context: context, title: 'Guardar', formKey: _formKey)
+               CommonWidgets().ElevatedButtonSaveWidget(context: context, title: 'Guardar', section: 'footer',formKey: _formKey)
              ],
            ),
 

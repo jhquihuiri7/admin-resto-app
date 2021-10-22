@@ -5,8 +5,6 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 class SectionUnoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    print(size.height);
     Widget mainLogoSectionUno (){
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,

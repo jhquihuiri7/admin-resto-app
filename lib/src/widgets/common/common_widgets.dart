@@ -4,6 +4,7 @@ import 'package:admin_resto_app/src/backend/request_user.dart';
 import 'package:admin_resto_app/src/providers/constraint_provider.dart';
 import 'package:admin_resto_app/src/providers/footer_provider.dart';
 import 'package:admin_resto_app/src/providers/login_theme_provider.dart';
+import 'package:admin_resto_app/src/providers/section_dos_provider.dart';
 import 'package:admin_resto_app/src/utils/common_funtions.dart';
 import 'package:admin_resto_app/src/validators/login_bloc.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
@@ -14,30 +15,49 @@ import 'package:loading_indicator/loading_indicator.dart';
 
 class CommonWidgets {
 
-  Widget ElevatedButtonWidget({required BuildContext context, required String title, required String widget}){
+  Widget ElevatedButtonWidget({required BuildContext context, required String title, required String widget, int indexMenu = 0}){
     final utilsProvider = Provider.of<UtilsProvider>(context);
+    final sectionDosProvider = Provider.of<SectionDosProvider>(context, listen: false);
     return ElevatedButton(
       onPressed: () {
-        utilsProvider.needLoad = true;
-        utilsProvider.loadLogo = widget;
+        if (widget == 'return'){
+          Navigator.pushReplacementNamed(context, '/login');
+        }else if (widget  == 'addMenu'){
+          CommonFuntions().showAlertNewMenu(context);
+        }else if(widget == 'delMenu'){
+          sectionDosProvider.sectionIndex = indexMenu;
+          RequestService().deleteSection(context);
+        }else{
+          utilsProvider.needLoad = true;
+          utilsProvider.loadLogo = widget;
+        }
       },
       child: Text(title),
     );
   }
-  Widget ElevatedButtonSaveWidget({required BuildContext context, required String title, required GlobalKey<FormState> formKey}){
+  Widget ElevatedButtonSaveWidget({required BuildContext context, required String title, required String section,required GlobalKey<FormState> formKey}){
     final utilsProvider = Provider.of<UtilsProvider>(context);
     final footerProvider = Provider.of<FooterProvider>(context);
+    final sectionDosProvider = Provider.of<SectionDosProvider>(context);
     return ElevatedButton(
       onPressed: () async {
+        print('AQUIIIIIIIIIIIII');
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
-          utilsProvider.footerModel.contacto.direccion = footerProvider.direccion;
-          utilsProvider.footerModel.contacto.mail = footerProvider.mail;
-          utilsProvider.footerModel.contacto.telefono = footerProvider.telefono;
-          await RequestService().replaceFooter(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Processing Data')),
-          );
+          print('VALLLLLLLLLLLLLLLLLLLLL');
+          if (section == 'footer'){
+            utilsProvider.footerModel.contacto.direccion = footerProvider.direccion;
+            utilsProvider.footerModel.contacto.mail = footerProvider.mail;
+            utilsProvider.footerModel.contacto.telefono = footerProvider.telefono;
+            await RequestService().replaceFooter(context);
+          }
+          if (section == 'sectionDos'){
+            print("DOSSSSSSSSSSSSSSSSSssssss");
+            sectionDosProvider.menuItem.img = 'https://firebasestorage.googleapis.com/v0/b/admin-resto-app.appspot.com/o/la_sazon%2Flogo_icon.png?alt=media&token=7ba01d10-06dd-4d30-9bdd-8fea43a54845';
+            sectionDosProvider.sectionDosModelNew = sectionDosProvider.sectionDosModel;
+            sectionDosProvider.sectionDosModelNew.typeMenu.elementAt(0).menu.add(sectionDosProvider.menuItem);
+            sectionDosProvider.sectionDosModelNew = sectionDosProvider.sectionDosModelNew;
+          }
         }
       },
       child: Text(title),
@@ -243,11 +263,18 @@ class CommonWidgets {
   Widget TextFormFieldWidget({required BuildContext context , required String field}){
     final utilsProvider = Provider.of<UtilsProvider>(context);
     final footerProvider = Provider.of<FooterProvider>(context);
+    final sectionDosProvider = Provider.of<SectionDosProvider>(context);
     String selectField (){
       if (field == 'Dirección'){
         return  utilsProvider.footerModel.contacto.direccion;
       }else if (field == 'Correo'){
         return utilsProvider.footerModel.contacto.mail;
+      }else if(field == 'Título'){
+        return 'Torrijas de Naranja';
+      }else if(field == 'Descripción'){
+        return 'Rebanadas de naranja con miel';
+      }else if(field == 'Valor'){
+        return '7.4';
       }else{
         return utilsProvider.footerModel.contacto.telefono;
       }
@@ -257,6 +284,12 @@ class CommonWidgets {
         return Icons.location_on;
       }else if (field == 'Correo'){
         return Icons.mail;
+      }else if(field == 'Título'){
+        return Icons.title;
+      }else if(field == 'Descripción'){
+        return Icons.description;
+      }else if(field == 'Valor'){
+        return Icons.monetization_on_outlined;
       }else{
         return Icons.phone;
       }
@@ -264,32 +297,41 @@ class CommonWidgets {
     saveField (String value){
       if (value != ''){
         if (field == 'Dirección'){
-          print(1);
           footerProvider.direccion = value;
         }
         if (field == 'Correo'){
-          print(2);
           footerProvider.mail = value;
         }
         if (field == 'Teléfono'){
-          print(3);
           footerProvider.telefono = value;
         }
-      }else {
-        if (field == 'Dirección'){
-          print(4);
-          footerProvider.direccion = utilsProvider.footerModel.contacto.direccion;
-          print(utilsProvider.contacto.direccion);
+        if (field == 'Título'){
+          sectionDosProvider.menuItem.title = value;
         }
-        if (field == 'Correo'){
-          print(5);
-          footerProvider.mail = utilsProvider.footerModel.contacto.mail;
-          print(utilsProvider.contacto.mail);
+        if (field == 'Descripción'){
+          sectionDosProvider.menuItem.description = value;
+        }
+        if (field == 'Valor'){
+          sectionDosProvider.menuItem.price = value;
+        }
+      }else {
+        if (field == 'Título'){
+          sectionDosProvider.menuItem.title = value;
+        }
+        if (field == 'Descripción'){
+          sectionDosProvider.menuItem.description = value;
+        }
+        if (field == 'Valor'){
+          sectionDosProvider.menuItem.price = value;
         }
         if (field == 'Teléfono'){
-          print(6);
           footerProvider.telefono = utilsProvider.footerModel.contacto.telefono;
-          print(utilsProvider.contacto.telefono);
+        }
+        if (field == 'Teléfono'){
+          footerProvider.telefono = utilsProvider.footerModel.contacto.telefono;
+        }
+        if (field == 'Teléfono'){
+          footerProvider.telefono = utilsProvider.footerModel.contacto.telefono;
         }
       }
     }

@@ -43,6 +43,7 @@ class ListTileMainWidget extends StatelessWidget {
         }else if (utilsProvider.mainIndex == 5){
           LocalStorage.prefs.remove('restaurantName');
           LocalStorage.prefs.remove('restaurantPath');
+          utilsProvider.mainIndex = 100;
           Navigator.pushReplacementNamed(context, '/login');
         }
 

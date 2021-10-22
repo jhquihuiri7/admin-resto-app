@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:admin_resto_app/src/models/section_cuatro_model.dart';
 import 'package:admin_resto_app/src/providers/auth_provider.dart';
 import 'package:admin_resto_app/src/providers/section_cuatro_provider.dart';
+import 'package:admin_resto_app/src/providers/section_dos_provider.dart';
 import 'package:admin_resto_app/src/providers/section_tres_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
@@ -89,4 +90,22 @@ class RequestService {
       await http.put(url, body: json.encode(utilsProvider.slidePromoNew.map((e) => e.toMap()).toList()));
     }
   }
+  Future addSection (BuildContext context) async{
+    final restaurant = Provider.of<AuthProvider>(context, listen: false).restaurantPath;
+    final sectionDosProvider = Provider.of<SectionDosProvider>(context, listen: false);
+    final Uri url = Uri.https(baseUrl, '$restaurant/section_2/type_menu.json');
+    await http.put(url, body: json.encode(sectionDosProvider.sectionDosModelNew.typeMenu.map((e) => e.toJson()).toList()));
+  }
+  Future deleteSection (BuildContext context) async {
+    final restaurant = Provider.of<AuthProvider>(context, listen: false).restaurantPath;
+    final sectionDosProvider = Provider.of<SectionDosProvider>(context, listen: false);
+    if (sectionDosProvider.sectionDosModelNew.typeMenu.isEmpty){
+      sectionDosProvider.sectionDosModelNew = sectionDosProvider.sectionDosModel;
+    }
+    sectionDosProvider.sectionDosModelNew.typeMenu.removeAt(sectionDosProvider.sectionIndex);
+    sectionDosProvider.sectionDosModelNew = sectionDosProvider.sectionDosModelNew;
+    final Uri url = Uri.https(baseUrl, '$restaurant/section_2/type_menu.json');
+    await http.put(url, body: json.encode(sectionDosProvider.sectionDosModelNew.typeMenu.map((e) => e.toJson()).toList()));
+  }
+
 }

@@ -9,5 +9,23 @@ class SectionDosProvider extends ChangeNotifier {
     _sectionDosModel = value;
   }
 
+  SectionDosModel _sectionDosModelNew = SectionDosModel(typeMenu: []);
+  SectionDosModel get sectionDosModelNew => _sectionDosModelNew;
+  set sectionDosModelNew(SectionDosModel value){
+    _sectionDosModelNew = value;
+    notifyListeners();
+  }
+  int _sectionIndex = 0;
+  int get sectionIndex => _sectionIndex;
+  set sectionIndex(int value){
+    _sectionIndex = value;
+    notifyListeners();
+  }
+  Menu _menuItem = Menu(description: '', img: '', price: '', title: '');
+  Menu get menuItem => _menuItem;
+  set menuItem(Menu value){
+    _menuItem = value;
+    notifyListeners();
+  }
 
 }
