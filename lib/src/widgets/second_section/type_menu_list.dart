@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:admin_resto_app/src/backend/request.dart';
+import 'package:admin_resto_app/src/backend/request_upload.dart';
 import 'package:admin_resto_app/src/models/section_dos_model.dart';
 import 'package:admin_resto_app/src/models/section_dos_model.dart';
 import 'package:admin_resto_app/src/providers/section_dos_provider.dart';
@@ -29,12 +31,18 @@ class _TypeMenuListState extends State<TypeMenuList> {
       List<Widget> menu = [];
       index++;
       int indexMenu = index;
-      int indexElement = -1;
       element.menu.forEach((menuElement){
-        indexElement++;
-        int indexMenuElement = indexElement;
         Widget menuTemp = Dismissible(
             key: Key(menuElement.img),
+            onDismissed: (direction) async{
+              if (sectionDosProvider.sectionDosModelNew.typeMenu.isEmpty){
+                sectionDosProvider.sectionDosModelNew = sectionDosProvider.sectionDosModel;
+              }
+              sectionDosProvider.sectionDosModelNew.typeMenu.elementAt(indexMenu).menu.removeWhere((element) => element.img == menuElement.img);
+              sectionDosProvider.menuItemToDelete = menuElement.img;
+              await RequestUpload().deleteFile(context, 'deleteItemMenu');
+              await RequestService().addSection(context);
+            },
             background: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -42,29 +50,30 @@ class _TypeMenuListState extends State<TypeMenuList> {
               ),
             ),
             child: ExpansionTile(
-          leading: Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50)
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image(
+              leading: Container(
                 height: 50,
                 width: 50,
-                fit: BoxFit.cover,
-                image: NetworkImage(menuElement.img),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50)
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image(
+                    height: 50,
+                    width: 50,
+                    fit: BoxFit.cover,
+                    image: NetworkImage(menuElement.img),
+                  ),
+                ),
               ),
-            ),
-          ),
-          title: Text(menuElement.title),
-          subtitle: Text(menuElement.price),
-          children: <Widget>[
-            Text(menuElement.description),
-            SizedBox(height: 10,),
-          ],
-        ));
+              title: Text(menuElement.title),
+              subtitle: Text(menuElement.price),
+              children: <Widget>[
+                Text(menuElement.description),
+                SizedBox(height: 10,),
+              ],
+            )
+        );
         menu.add(menuTemp);
       });
       menu.add(SizedBox(height: 10,));

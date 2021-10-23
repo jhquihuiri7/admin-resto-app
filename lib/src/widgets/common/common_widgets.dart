@@ -21,14 +21,21 @@ class CommonWidgets {
     final utilsProvider = Provider.of<UtilsProvider>(context);
     final sectionDosProvider = Provider.of<SectionDosProvider>(context, listen: false);
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         if (widget == 'return'){
           Navigator.pushReplacementNamed(context, '/login');
         }else if (widget  == 'addMenu'){
           CommonFuntions().showAlertNewMenu(context);
         }else if(widget == 'delMenu'){
           sectionDosProvider.sectionIndex = indexMenu;
-          RequestService().deleteSection(context);
+          if (sectionDosProvider.sectionDosModelNew.typeMenu.isEmpty){
+            sectionDosProvider.sectionDosModelNew = sectionDosProvider.sectionDosModel;
+          }
+          sectionDosProvider.sectionDosModelNew.typeMenu.elementAt(sectionDosProvider.sectionIndex).menu.forEach((element) async {
+            sectionDosProvider.menuItemToDelete = element.img;
+            await RequestUpload().deleteFile(context,'deleteItemMenu');
+          });
+          await RequestService().deleteSection(context);
         }else{
           if (widget == 'addItem'){
             sectionDosProvider.sectionIndex = indexMenu;

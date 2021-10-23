@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:admin_resto_app/src/providers/auth_provider.dart';
+import 'package:admin_resto_app/src/providers/section_dos_provider.dart';
 import 'package:admin_resto_app/src/utils/common_funtions.dart';
 import 'package:admin_resto_app/src/widgets/export_widget.dart';
 import 'package:image_picker_web/image_picker_web.dart';
@@ -39,6 +40,7 @@ class RequestUpload {
   Future deleteFile(BuildContext context, String logo) async {
     final modelProvider = Provider.of<ModelProvider>(context, listen: false);
     final utilsProvider = Provider.of<UtilsProvider>(context, listen: false);
+    final sectionDosProvider = Provider.of<SectionDosProvider>(context, listen: false);
     final restaurant = Provider.of<AuthProvider>(context, listen: false).restaurantPath;
     String child = '';
     if ( logo == 'logo') {
@@ -61,6 +63,8 @@ class RequestUpload {
       child = CommonFuntions().transformTextBackend(modelProvider.slideToDelete.img);
     }else if (logo == 'deleteSliderMoments'){
       child = CommonFuntions().transformTextBackend(modelProvider.slideToDelete.img);
+    }else if (logo == 'deleteItemMenu'){
+      child = CommonFuntions().transformTextBackend(sectionDosProvider.menuItemToDelete);
     }
     print(child);
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance

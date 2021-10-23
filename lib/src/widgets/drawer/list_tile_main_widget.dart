@@ -39,7 +39,7 @@ class ListTileMainWidget extends StatelessWidget {
         SelectSubsection().resetValues(context);
         utilsProvider.mainIndex = index;
         if (utilsProvider.mainIndex == 4) {
-          SelectSection().launchWhatsApp();
+          SelectSection().launchWhatsApp(context);
         }else if (utilsProvider.mainIndex == 5){
           LocalStorage.prefs.remove('restaurantName');
           LocalStorage.prefs.remove('restaurantPath');

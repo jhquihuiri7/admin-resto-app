@@ -105,10 +105,15 @@ class DismissibleSliderWidget extends StatelessWidget {
                                 ),
                               ),
                               onDismissed: (direction) async{
-                                data.remove(delWidget);
-                                Provider.of<ModelProvider>(context, listen: false).slideToDelete = delWidget;
-                                refreshData(data);
-                                await RequestService().removeSlider(context, type);
+                                if (data.length >1){
+                                  data.remove(delWidget);
+                                  Provider.of<ModelProvider>(context, listen: false).slideToDelete = delWidget;
+                                  refreshData(data);
+                                  await RequestService().removeSlider(context, type);
+                                }else {
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Debe existir al menos un elemento')));
+                                }
+
                               },
                             ),
                           ],

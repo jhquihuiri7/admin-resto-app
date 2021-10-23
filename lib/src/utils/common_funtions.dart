@@ -10,11 +10,12 @@ class CommonFuntions {
   String transformText(BuildContext context,String title){
     final constraintProvider = Provider.of<ConstraintProvider>(context, listen: false);
     return (constraintProvider.screenType == 2)
-        ?'${title.substring(80).split('.')[0]}.${title.substring(80).split('.')[1].split('?')[0]}'
-        :title.substring(80).split('.')[0];
+        ?'${title.split('%2F')[1].split('.')[0]}.${title.split('%2F')[1].split('.')[1].split('?')[0]}'
+        :title.split('%2F')[1].split('.')[0];
   }
   String transformTextBackend(String title){
-    return '${title.substring(80).split('.')[0]}.${title.substring(80).split('.')[1].split('?')[0]}';
+    //return '${title.substring(80).split('.')[0]}.${title.substring(80).split('.')[1].split('?')[0]}';
+    return '${title.split('%2F')[1].split('.')[0]}.${title.split('%2F')[1].split('.')[1].split('?')[0]}';
   }
   void showAlertNewMenu(BuildContext context){
     TextEditingController controller = TextEditingController();

@@ -2,6 +2,7 @@ import 'package:admin_resto_app/src/pages/section_cuatro_page.dart';
 import 'package:admin_resto_app/src/pages/section_dos_page.dart';
 import 'package:admin_resto_app/src/pages/section_tres_page.dart';
 import 'package:admin_resto_app/src/pages/section_uno_page.dart';
+import 'package:admin_resto_app/src/providers/auth_provider.dart';
 import 'package:admin_resto_app/src/providers/utils_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,10 +23,11 @@ class SelectSection {
         : Container();
   }
 
-  launchWhatsApp() async {
+  launchWhatsApp(BuildContext context) async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final link = WhatsAppUnilink(
       phoneNumber: '+593982291894',
-      text: "Estimados Logiciel Applab, los contactamos de parte de la empresa La Sazon debido a que tenemos ciertos inconvenientes con:",
+      text: "Estimados Logiciel Applab, los contactamos de parte de la empresa ${authProvider.restaurantName} debido a que tenemos ciertos inconvenientes con:",
     );
 
     await launch('$link');

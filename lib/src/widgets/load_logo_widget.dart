@@ -104,7 +104,11 @@ class LoadLogoWidget extends StatelessWidget {
                 ),
               )
               : Container(),
+              (logo == 'sliderHeader' || logo == 'sliderPromo')
+                  ? Container(padding: EdgeInsets.symmetric(horizontal: 20),child: Text('Para una adecuada visualización, cargue imágenes de 1400x800 px', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),))
+                  : Container(),
               (logo == 'addItem')? AddMenuItemWidget() : Container(),
+              SizedBox(height: 20),
             ],
           ),
         ),

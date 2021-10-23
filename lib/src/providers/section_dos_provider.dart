@@ -27,5 +27,9 @@ class SectionDosProvider extends ChangeNotifier {
     _menuItem = value;
     notifyListeners();
   }
-
+  String _menuItemToDelete = '';
+  String get menuItemToDelete => _menuItemToDelete;
+  set menuItemToDelete(String value){
+    _menuItemToDelete = value;
+  }
 }

@@ -107,5 +107,8 @@ class RequestService {
     final Uri url = Uri.https(baseUrl, '$restaurant/section_2/type_menu.json');
     await http.put(url, body: json.encode(sectionDosProvider.sectionDosModelNew.typeMenu.map((e) => e.toJson()).toList()));
   }
+  Future deleteItemMenu (BuildContext context) async {
+
+  }
 
 }

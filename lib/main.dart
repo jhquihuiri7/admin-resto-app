@@ -58,14 +58,14 @@ class _MyAppState extends State<MyApp> {
   }
   @override
   Widget build(BuildContext context) {
-    if(_error) {
-      print("error");
-    }
+    //if(_error) {
+    //  print("error");
+    //}
 
-    // Show a loader until FlutterFire is initialized
-    if (!_initialized) {
-      print("loading");
-    }
+    //// Show a loader until FlutterFire is initialized
+    //if (!_initialized) {
+    //  print("loading");
+    //}
 
     return MultiProvider(
       providers: [
